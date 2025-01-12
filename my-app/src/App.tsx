@@ -29,6 +29,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Layout } from './structure/layout';
+import Login from './pages/login/login';
 import Home from './pages/home/home';
 import Page1 from './pages/page1/page1';
 import Page2 from './pages/page2/page2';
@@ -41,7 +42,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
+        <Route index element={<Login />} />
+        <Route path="home" element={<Home />} />
         <Route path="page1" element={<Page1 />} />
         <Route path="page2" element={<Page2 />} />
         <Route path="page3" element={<Page3 />} />

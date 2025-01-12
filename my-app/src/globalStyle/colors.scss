@@ -1,0 +1,219 @@
+$primary-color: #3D518C;
+$secondary-color: #226F54;
+
+$white: #ffffff;
+$black: #000000;
+$grey: #808080;
+
+$lighten: 5;
+$darken: 25;
+
+$colors-light: (
+    primary: (base: $primary-color,
+        light: lighten($primary-color, $lighten),
+        darken: darken($primary-color, $darken)),
+    secondary: (base: $secondary-color,
+        light: lighten($secondary-color, $lighten),
+        darken: darken($secondary-color, $darken)),
+    color-1: #e1e1e1,
+    color-2: #f2f2f2,
+    background: $white,
+    contrast: $black,
+    shadow: #8585857c
+);
+
+$colors-dark: (
+    primary: (base: $primary-color,
+        light: lighten($primary-color, $lighten),
+        darken: darken($primary-color, $darken)),
+    secondary: (base: $secondary-color,
+        light: lighten($secondary-color, $lighten),
+        darken: darken($secondary-color, $darken)),
+    color-1: #181818,
+    color-2: #121212,
+    background: $black,
+    contrast: $white,
+    shadow: #cfcfcf72
+);
+
+// .theme-primary {
+//     background-color: $primary-color;
+// }
+
+// .theme-secondary {
+//     background-color: $secondary-color;
+// }
+
+
+.theme-primary,
+.theme-secondary,
+.contrast {
+    transition: background-color 0.2s, color 0.2s;
+}
+
+@mixin theme($theme-colors) {
+
+    .btn-primary {
+        background-color: map-get(map-get($theme-colors, primary), base);
+        color: $white;
+
+        &:hover {
+            background-color: map-get($theme-colors, contrast);
+            color: map-get($theme-colors, background);
+        }
+    }
+
+    .btn-linkedin {
+        background-color: #0077B5;
+
+        &:hover {
+            background-color: #0299eb;
+        }
+    }
+
+
+
+    .btn-github {
+        background-color: #181717;
+
+        &:hover {
+            background-color: #2e2c2c;
+        }
+    }
+
+    .btn-github,
+    .btn-linkedin {
+        svg {
+            color: $white;
+        }
+    }
+
+
+    .theme-primary {
+        background-color: map-get(map-get($theme-colors, primary), base);
+    }
+
+    .theme-secondary {
+        background-color: map-get(map-get($theme-colors, secondary), base);
+    }
+
+    .contrast {
+        color: map-get($theme-colors, contrast);
+    }
+
+    .color-bg {
+        background-color: map-get($theme-colors, background);
+    }
+
+    .container {
+        border-bottom: 2px solid $grey;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+        transition: background-color 0.2s, color 0.2s;
+        color: map-get($theme-colors, contrast);
+    }
+
+    nav {
+        .dropdown {
+            background-color: map-get($theme-colors, background);
+        }
+
+        a {
+            background-color: map-get($theme-colors, contrast);
+            color: map-get($theme-colors, background);
+
+            &:hover {
+                background-color: map-get($theme-colors, color-1);
+                color: map-get($theme-colors, contrast);
+
+            }
+        }
+
+        .active {
+            background-color: map-get($theme-colors, background);
+            color: map-get($theme-colors, contrast);
+
+            &:hover {
+                background-color: map-get($theme-colors, background);
+                color: map-get($theme-colors, contrast);
+            }
+        }
+    }
+
+
+
+    .background {
+        transition: background-color 0.2s, color 0.2s;
+        background-color: map-get($theme-colors, background);
+
+        .square-1 {
+            background-color: map-get($theme-colors, color-2);
+        }
+
+        .square-2 {
+            background-color: map-get($theme-colors, color-1);
+        }
+
+        .square-3 {
+            background-color: map-get($theme-colors, color-2);
+        }
+
+        .square-4 {
+            background-color: map-get($theme-colors, color-1);
+        }
+
+        .square-5 {
+            background-color: map-get($theme-colors, color-2);
+        }
+
+        .square {
+            transition: background-color 0.2s, color 0.2s;
+        }
+    }
+
+    // .project-container {
+    //     transition: background-color 0.2s, color 0.2s;
+    //     background: linear-gradient(map-get($theme-colors, color-1), map-get($theme-colors, color-2));
+
+    // }
+
+    .icon-container {
+
+        span {
+            transition: background-color 0.2s, color 0.2s;
+            background-color: map-get($theme-colors, contrast);
+        }
+
+        &.light {
+
+            .light-ray,
+            .sun {
+                background-color: map-get($theme-colors, contrast);
+            }
+
+            .moon {}
+        }
+
+        &.dark {
+            .moon {
+                background-color: map-get($theme-colors, background);
+            }
+
+            .sun {}
+        }
+    }
+}
+
+body.light {
+    @include theme($colors-light);
+    background-color: map-get($colors-light, background);
+}
+
+body.dark {
+    @include theme($colors-dark);
+    background-color: map-get($colors-dark, background);
+}

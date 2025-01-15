@@ -5,6 +5,8 @@ import LoginUser from "./login-user/loginUser";
 import LogoComponent from "../../components/logo/logoComponent";
 import ModalComponent from "../../components/modal/modalComponent";
 
+import { Header } from "../../structure/header/header";
+
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import "../../structure/main/FadeTransitionWrapper.scss";
 
@@ -17,8 +19,6 @@ function Login() {
 
     return (
         <div>
-            <LogoComponent />
-
             <SwitchTransition>
                 <CSSTransition
                     key={isLoginForm ? "login" : "create"}
@@ -35,9 +35,6 @@ function Login() {
                                 >
                                     New? Create account here
                                 </button>
-                                <button onClick={openModal} className="open-modal-button">
-                                    Open Modal
-                                </button>
                             </div>
                         ) : (
                             <div>
@@ -47,9 +44,6 @@ function Login() {
                                     className="login-account-button"
                                 >
                                     Already have an account? Log in
-                                </button>
-                                <button onClick={openModal} className="open-modal-button">
-                                    Open Modal
                                 </button>
                             </div>
                         )}

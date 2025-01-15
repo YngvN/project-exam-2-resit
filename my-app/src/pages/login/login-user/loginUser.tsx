@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../../utility/api/url";
 import { storeUserData } from "../../../utility/api/user";
+import FormContainer from "../../../components/containers/form/form";
+import { PrimaryButton } from "../../../components/buttons/buttons";
 
 function LoginUser() {
     const [email, setEmail] = useState("");
@@ -34,9 +36,7 @@ function LoginUser() {
     };
 
     return (
-        <div className="login-container">
-            <h1 className="page-title">Log in</h1>
-            {error && <p className="error-message">{error}</p>}
+        <FormContainer title="Log in" error={error}>
             <form className="login-form" onSubmit={handleLogin}>
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
@@ -72,9 +72,9 @@ function LoginUser() {
                         Remember me
                     </label>
                 </div>
-                <button type="submit" className="login-button">Log in</button>
+                <PrimaryButton type="submit" label="Log in" className="login-button" />
             </form>
-        </div>
+        </FormContainer>
     );
 }
 

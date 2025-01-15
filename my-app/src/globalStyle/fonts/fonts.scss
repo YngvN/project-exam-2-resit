@@ -1,0 +1,17 @@
+@import "./font-poppins.scss";
+@import "./font-shipporo-mincho.scss";
+@import "./font-raleway.scss";
+
+$font-stack-header: 'Times New Roman', Times, serif;
+$font-stack-body: Arial;
+
+h1 {
+    font-family: 'Raleway', $font-stack-header;
+}
+
+h2 {}
+
+p,
+label {
+    font-family: 'Poppins', $font-stack-body;
+}

@@ -19,7 +19,6 @@ export function updateUserData(newUserData: any[], persistent: boolean = true): 
     const storage = persistent ? localStorage : sessionStorage;
     const existingData = JSON.parse(storage.getItem("userData") || "[]");
 
-    // Merge existing data with the new data
     const updatedData = [...existingData, ...newUserData];
 
     storage.setItem("userData", JSON.stringify(updatedData));
@@ -34,11 +33,15 @@ export function deleteUserData(persistent: boolean = true): void {
     storage.removeItem("userData");
 }
 
-export default function UserStorageExample() {
-    return (
-        <div>
-            <h1>User Storage Example</h1>
-            <p>Use the provided functions to store, update, and delete user data in storage.</p>
-        </div>
-    );
+
+/**
+ * Checks if the user is logged in by verifying the presence of user data in storage.
+ * @returns {boolean} - True if user data exists, otherwise false.
+ */
+export function isUserLoggedIn(): boolean {
+    const localData = localStorage.getItem("userData");
+    const sessionData = sessionStorage.getItem("userData");
+
+    return !!(localData || sessionData);
 }
+

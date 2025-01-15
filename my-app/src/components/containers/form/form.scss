@@ -1,0 +1,43 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 600px;
+
+    @media screen and (max-width: 768px) {
+        // For tablets and smaller screens
+        padding: 1.5rem;
+        width: 90%; // Adjust width to take most of the screen
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); // Slightly reduce the shadow
+        min-width: none;
+    }
+
+    @media screen and (min-width: 768px) {
+        min-width: 600px;
+    }
+
+}
+
+.form-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.form-error {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}

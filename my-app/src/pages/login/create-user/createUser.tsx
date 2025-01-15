@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeRequest } from "../../../utility/api/url";
 import { useNavigate } from "react-router-dom";
 import { getInputClass } from "../../../components/inputs/inputs";
+import FormContainer from "../../../components/containers/form/form";
 
 import "../../../components/inputs/inputs.scss";
 
@@ -123,9 +124,7 @@ function CreateUser() {
     };
 
     return (
-        <div className="create-user-container">
-            <h1 className="page-title">Create User</h1>
-            {error && <p className="error-message">{error}</p>}
+        <FormContainer title="Create User" error={error}>
             {success && <p className="success-message">User created successfully!</p>}
             <form className="create-user-form" onSubmit={handleCreateUser}>
                 <div className="form-group">
@@ -237,7 +236,7 @@ function CreateUser() {
                 </div>
                 <button type="submit" className="create-user-button">Create User</button>
             </form>
-        </div>
+        </FormContainer>
     );
 }
 

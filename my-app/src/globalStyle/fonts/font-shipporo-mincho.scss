@@ -1,0 +1,25 @@
+$font-family-shippori: "Shippori Mincho B1", serif;
+
+.shippori-mincho-b1 {
+    font-family: $font-family-shippori;
+
+    &-regular {
+        font-weight: 400;
+    }
+
+    &-medium {
+        font-weight: 500;
+    }
+
+    &-semibold {
+        font-weight: 600;
+    }
+
+    &-bold {
+        font-weight: 700;
+    }
+
+    &-extrabold {
+        font-weight: 800;
+    }
+}

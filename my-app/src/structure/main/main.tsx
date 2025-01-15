@@ -1,7 +1,9 @@
 import React from 'react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { Outlet, useLocation } from 'react-router-dom';
+
 import './FadeTransitionWrapper.scss';
+import './main.scss';
 
 const Main: React.FC = () => {
     const location = useLocation();

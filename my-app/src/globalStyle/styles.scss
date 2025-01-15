@@ -1,0 +1,14 @@
+@import "./colors.scss";
+@import "./fonts/fonts.scss";
+
+body {
+    background-color: map-get($colors-light, background);
+    color: map-get($colors-light, contrast);
+}
+
+[data-theme="dark"] {
+    body {
+        background-color: map-get($colors-dark, background);
+        color: map-get($colors-dark, contrast);
+    }
+}

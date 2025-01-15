@@ -1,0 +1,43 @@
+@import '../../../globalStyle/fonts/fonts.scss';
+@import '../../../globalStyle/colors.scss';
+
+nav {
+    display: flex;
+    padding: 1rem; // Add spacing inside the nav
+    width: 100%;
+    align-items: center;
+
+    ul {
+        display: flex;
+        width: 100%;
+        max-width: 1200px;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+
+        li {
+            list-style: none;
+
+            a {
+                font-family: 'Raleway', sans-serif;
+                font-size: 1rem;
+                color: #007bff;
+                text-decoration: none;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+                transition: background-color 0.3s ease, color 0.3s ease;
+
+                &:hover {
+                    background-color: #e9ecef;
+                    color: #0056b3;
+                }
+
+                &:active {
+                    background-color: #d6d8db;
+                }
+            }
+        }
+    }
+}

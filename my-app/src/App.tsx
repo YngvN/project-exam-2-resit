@@ -35,10 +35,12 @@ import Page1 from './pages/page1/page1';
 import Page2 from './pages/page2/page2';
 import Page3 from './pages/page3/page3';
 import RouteNotFound from './pages/404NotFound/404notfound';
+import "./globalStyle/styles.scss";
 
 import './App.css';
 
 function App() {
+  const [hideHeader, setHideHeader] = useState(false);
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

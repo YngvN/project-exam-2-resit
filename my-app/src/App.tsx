@@ -25,7 +25,7 @@
 
 // export default App;
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Layout } from './structure/layout';
@@ -33,7 +33,7 @@ import Login from './pages/login/login';
 import Home from './pages/home/home';
 import Page1 from './pages/page1/page1';
 import Page2 from './pages/page2/page2';
-import Page3 from './pages/page3/page3';
+import Profile from './pages/profile/profile';
 import RouteNotFound from './pages/404NotFound/404notfound';
 import "./globalStyle/styles.scss";
 
@@ -48,7 +48,7 @@ function App() {
         <Route path="home" element={<Home />} />
         <Route path="page1" element={<Page1 />} />
         <Route path="page2" element={<Page2 />} />
-        <Route path="page3" element={<Page3 />} />
+        <Route path="Profile" element={<Profile />} />
         <Route path="*" element={<RouteNotFound />} />
       </Route>
     </Routes>

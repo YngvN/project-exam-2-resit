@@ -3,6 +3,7 @@ import { makeRequest } from "../../../utility/api/url";
 import { useNavigate } from "react-router-dom";
 import { getInputClass } from "../../../components/inputs/inputs";
 import FormContainer from "../../../components/containers/form/form";
+import { PrimaryButton } from "../../../components/buttons/buttons";
 
 import "../../../components/inputs/inputs.scss";
 
@@ -234,7 +235,9 @@ function CreateUser() {
                         Remember me
                     </label>
                 </div>
-                <button type="submit" className="create-user-button">Create User</button>
+                <div className="button-container">
+                    <PrimaryButton type="submit" label="Create User" className="create-user-button" />
+                </div>
             </form>
         </FormContainer>
     );

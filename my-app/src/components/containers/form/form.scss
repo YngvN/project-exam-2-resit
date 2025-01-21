@@ -7,12 +7,11 @@
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-width: 600px;
 
     @media screen and (max-width: 768px) {
         // For tablets and smaller screens
         padding: 1.5rem;
-        width: 90%; // Adjust width to take most of the screen
+        width: 80vw; // Adjust width to take most of the screen
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); // Slightly reduce the shadow
         min-width: none;
     }

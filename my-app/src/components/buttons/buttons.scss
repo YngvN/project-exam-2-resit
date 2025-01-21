@@ -70,6 +70,18 @@
     }
 }
 
+.button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    button {
+        display: flex;
+        width: 50%;
+        justify-content: center;
+    }
+}
+
 // Dark mode support
 [data-theme="dark"] {
     .btn {

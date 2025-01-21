@@ -1,0 +1,14 @@
+.opacity-fade-trigger {
+    .opacity-fade-hidden {
+        opacity: 0;
+        transition: .2s;
+
+    }
+
+    &:hover {
+        .opacity-fade-hidden {
+            opacity: 1;
+
+        }
+    }
+}

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../../utility/api/url";
 import { storeUserData } from "../../../utility/api/user";
 import FormContainer from "../../../components/containers/form/form";
-import { PrimaryButton } from "../../../components/buttons/buttons";
+import { PrimaryButton, SecondaryButton } from "../../../components/buttons/buttons";
 
 function LoginUser() {
     const [email, setEmail] = useState("");
@@ -72,7 +72,10 @@ function LoginUser() {
                         Remember me
                     </label>
                 </div>
-                <PrimaryButton type="submit" label="Log in" className="login-button" />
+                <div className="button-container">
+                    <PrimaryButton type="submit" label="Log in" className="login-button" />
+                    <SecondaryButton label="Skip Login" />
+                </div>
             </form>
         </FormContainer>
     );

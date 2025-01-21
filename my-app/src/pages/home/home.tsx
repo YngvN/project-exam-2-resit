@@ -1,57 +1,142 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import "./home.scss";
+import { VenueDisplayAll, VenueSearchDisplay } from "../../components/venues/venueDisplay/venueDisplay";
 
 function Home() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchParams, setSearchParams] = useState<Record<string, any>>({});
+    const [isSearching, setIsSearching] = useState(false);
+    const [filtersVisible, setFiltersVisible] = useState(false);
+    const [filters, setFilters] = useState({
+        wifi: false,
+        parking: false,
+        breakfast: false,
+        pets: false,
+    });
+    const [debounceTimeout, setDebounceTimeout] = useState<number | undefined>();
+
+    const handleSearch = () => {
+        const activeFilters = Object.fromEntries(
+            Object.entries(filters).filter(([_, value]) => value)
+        );
+        const combinedParams = { q: searchQuery, ...activeFilters };
+
+        if (searchQuery.trim() === "" && Object.keys(activeFilters).length === 0) {
+            setIsSearching(false); // Reset to show all venues if no query or filters
+        } else {
+            setSearchParams(combinedParams); // Update search params for the search component
+            setIsSearching(true);
+        }
+    };
+
+    const handleReset = () => {
+        setSearchQuery("");
+        setSearchParams({});
+        setFilters({
+            wifi: false,
+            parking: false,
+            breakfast: false,
+            pets: false,
+        });
+        setIsSearching(false);
+    };
+
+    const toggleFilters = () => {
+        setFiltersVisible((prev) => !prev);
+    };
+
+    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = e.target;
+        setFilters((prev) => ({ ...prev, [name]: checked }));
+    };
+
+    const handleSearchQueryChange = (value: string) => {
+        setSearchQuery(value);
+
+        // Clear previous debounce timeout
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+
+        // Set a new debounce timeout
+        const timeout = setTimeout(() => {
+            handleSearch();
+        }, 500); // 500ms debounce delay
+
+        setDebounceTimeout(timeout as unknown as number);
+    };
+
+    // Perform a search whenever filters change
+    useEffect(() => {
+        handleSearch();
+    }, [filters]);
+
     return (
-        <div>
-            <header>
-                <h1>Main Heading (H1)</h1>
-                <p>This is an introductory paragraph providing context for the content below.</p>
-            </header>
+        <div className="page-container">
+            <h1>Welcome to the Home Page</h1>
+            <div className="search-container">
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => handleSearchQueryChange(e.target.value)}
+                    placeholder="Search for venues..."
+                    className="search-input"
+                />
+                <button onClick={handleReset} className="reset-button">
+                    Reset
+                </button>
+                <button onClick={toggleFilters} className="filter-button">
+                    {filtersVisible ? "Hide Filters" : "Show Filters"}
+                </button>
+            </div>
 
-            <main>
-                <section>
-                    <h2>Subheading Level 1 (H2)</h2>
-                    <p>
-                        This is a standard paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Phasellus bibendum vehicula nunc, at faucibus lacus tempor nec.
-                    </p>
-                    <blockquote>
-                        "This is a blockquote element. It's typically used for emphasizing quoted content."
-                        <footer>— Author Name</footer>
-                    </blockquote>
-                </section>
+            {filtersVisible && (
+                <div className="filters-container">
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="wifi"
+                            checked={filters.wifi}
+                            onChange={handleFilterChange}
+                        />
+                        Wi-Fi
+                    </label>
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="parking"
+                            checked={filters.parking}
+                            onChange={handleFilterChange}
+                        />
+                        Parking
+                    </label>
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="breakfast"
+                            checked={filters.breakfast}
+                            onChange={handleFilterChange}
+                        />
+                        Breakfast
+                    </label>
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="pets"
+                            checked={filters.pets}
+                            onChange={handleFilterChange}
+                        />
+                        Pets Allowed
+                    </label>
+                </div>
+            )}
 
-                <section>
-                    <h3>Subheading Level 2 (H3)</h3>
-                    <ul>
-                        <li>Unordered list item 1</li>
-                        <li>Unordered list item 2</li>
-                        <li>Unordered list item 3</li>
-                    </ul>
-                    <ol>
-                        <li>Ordered list item 1</li>
-                        <li>Ordered list item 2</li>
-                        <li>Ordered list item 3</li>
-                    </ol>
-                </section>
-
-                <section>
-                    <h4>Subheading Level 3 (H4)</h4>
-                    <p>
-                        <strong>Bold text:</strong> This text is bolded for emphasis.
-                        <em>Italic text:</em> This text is italicized for subtle emphasis.
-                    </p>
-                    <p>
-                        <a href="#">This is a hyperlink</a>, styled to indicate clickable text.
-                    </p>
-                </section>
-            </main>
-
-            <footer>
-                <p>Footer text © 2025. All rights reserved.</p>
-            </footer>
-        </div >
-
+            {isSearching && Object.keys(searchParams).length > 0 ? (
+                <VenueSearchDisplay searchParams={searchParams} />
+            ) : (
+                !isSearching && <VenueDisplayAll />
+            )}
+        </div>
     );
 }
 

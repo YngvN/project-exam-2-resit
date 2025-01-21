@@ -40,4 +40,64 @@ nav {
             }
         }
     }
+
+    @media screen and (max-width: 768px) {
+        padding: 0; // Add spacing inside the nav
+    }
+}
+
+.nav-user-container {
+    position: relative;
+    display: inline-block;
+
+    .nav-username {
+        cursor: pointer;
+        font-weight: bold;
+        color: #007bff;
+        text-decoration: none;
+
+        &:hover {
+            color: #0056b3;
+        }
+    }
+
+    .user-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        min-width: 150px;
+
+        .dropdown-item {
+            display: block;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 0.9rem;
+
+            &:hover {
+                background-color: #f8f9fa;
+                color: #0056b3;
+            }
+
+            &.logout-button {
+                background: none;
+                border: none;
+                width: 100%;
+                text-align: left;
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+                color: #dc3545;
+
+                &:hover {
+                    background-color: #f8d7da;
+                    color: #a71d2a;
+                }
+            }
+        }
+    }
 }

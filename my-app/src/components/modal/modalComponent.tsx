@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import XIcon from "../icons/xIcon/xIcon";
 import "./modalComponent.scss";
 
 function ModalComponent({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children: React.ReactNode }) {
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen, onClose]);
+
     if (!isOpen) return null;
 
     return (

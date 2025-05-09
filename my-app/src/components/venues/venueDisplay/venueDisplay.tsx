@@ -3,6 +3,7 @@ import VenueTile from "../venueTile/venueTile";
 import "./venueDisplay.scss";
 import { makeRequest } from "../../../utility/api/url";
 import LoadingComponent from "../../icons/loading/loadingComponent";
+import { deduplicateByKey } from "../../../utility/deduplicater";
 
 interface Venue {
     id: string;
@@ -43,7 +44,10 @@ export const VenueDisplayAll: React.FC = () => {
             setIsLoading(true);
             const response = await makeRequest("holidaze/venues", "", "", "GET", null, { page }, true);
             const fetchedVenues = response.data || [];
-            setVenues((prevVenues) => [...prevVenues, ...fetchedVenues]);
+            setVenues((prevVenues) => {
+                const combined = [...prevVenues, ...fetchedVenues];
+                return deduplicateByKey(combined, (v) => v.id);
+            });
             setIsLastPage(fetchedVenues.length === 0); // Check if no more venues are returned
         } catch (err: any) {
             setError(err.message || "Failed to fetch venues.");

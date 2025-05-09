@@ -1,0 +1,55 @@
+.venue-booking-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.venue-booking-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        label {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 0.5rem;
+        }
+
+        button[type="submit"] {
+            margin-top: 1rem;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    }
+
+    .close-button {
+        margin-top: 1rem;
+        background: transparent;
+        color: #555;
+        border: none;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}

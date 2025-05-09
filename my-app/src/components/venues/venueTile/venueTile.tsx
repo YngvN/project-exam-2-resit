@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import "./venueTile.scss";
+import "./venueModal.scss";
 import ModalComponent from "../../modal/modalComponent";
+import VenueBooking from "./venueBooking/venueBooking";
 import { makeRequest } from "../../../utility/api/url";
+import { isUserLoggedIn } from "../../../utility/api/user";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Zoom } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/zoom";
+
 
 interface Venue {
     id: string;
@@ -11,6 +23,8 @@ interface Venue {
     price: number;
     maxGuests: number;
     rating: number;
+    created: string; 
+    updated: string; 
     meta: {
         wifi: boolean;
         parking: boolean;
@@ -20,9 +34,14 @@ interface Venue {
     location: {
         address: string;
         city: string;
+        zip: string;
         country: string;
+        continent: string;
+        lat: number;
+        lng: number;
     };
 }
+
 
 interface VenueTileProps {
     venue: Venue;
@@ -52,6 +71,8 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
         setVenueDetails(null);
         setError("");
     };
+    const [showBooking, setShowBooking] = useState(false);
+
 
     return (
         <>
@@ -91,12 +112,38 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
                         <p className="error-message">{error}</p>
                     ) : (
                         venueDetails && (
-                            <div className="venue-details-modal">
+                            <div className={`venue-details-modal ${showBooking ? "hidden" : ""}`}>
                                 <h2>{venueDetails.name}</h2>
-                                <img
-                                    src={venueDetails.media[0]?.url || "https://via.placeholder.com/300"}
-                                    alt={venueDetails.media[0]?.alt || "Venue Image"}
-                                />
+                                {venueDetails.media.length > 1 ? (
+                                <Swiper
+                                    className="venue-image-swiper"
+                                    modules={[Navigation, Pagination, Zoom]}
+                                    spaceBetween={10}
+                                    navigation
+                                    pagination={{ clickable: true }}
+                                    loop
+                                    zoom
+                                >
+                                    {venueDetails.media.map((image, index) => (
+                                        <SwiperSlide key={index}>
+                                            <div className="swiper-zoom-container">
+                                                <img
+                                                    src={image.url}
+                                                    alt={image.alt || `Image ${index + 1}`}
+                                                    className="venue-image"
+                                                />
+                                            </div>
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+
+                                ) : (
+                                    <img
+                                        src={venueDetails.media[0]?.url || "https://via.placeholder.com/300"}
+                                        alt={venueDetails.media[0]?.alt || "Venue Image"}
+                                        className="venue-image"
+                                    />
+                                )}
                                 <p>{venueDetails.description}</p>
                                 <p>Price: ${venueDetails.price} / night</p>
                                 <p>Max Guests: {venueDetails.maxGuests}</p>
@@ -111,9 +158,21 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
                                     <p>{venueDetails.location.address}</p>
                                     <p>{venueDetails.location.city}, {venueDetails.location.country}</p>
                                 </div>
+                                <div className="venue-booking-button">
+                                    <button onClick={() => setShowBooking(true)}>
+                                        {isUserLoggedIn() ? "Book now" : "Log in to book now"}
+                                    </button>
+                                </div>
+                                <div className="venue-updated">
+                                    <p>Created: {new Date(venueDetails.created).toLocaleDateString()}</p>
+                                    <p>Last Updated: {new Date(venueDetails.updated).toLocaleDateString()}</p>
+                                </div>
                             </div>
                         )
                     )}
+                    {showBooking && <VenueBooking onClose={() => setShowBooking(false)} />}
+
+                    
                 </ModalComponent>
             )}
         </>

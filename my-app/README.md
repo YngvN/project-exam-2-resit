@@ -10,6 +10,7 @@ A simple template using React among other things
 - [React.js](https://reactjs.org/)
 - [SASS](https://sass-lang.com/)
 - [Typescript](https://www.typescriptlang.org/)
+- [Swiper](https://www.typescriptlang.org/)
 
 
 
@@ -28,6 +29,8 @@ git clone git@github.com:YngvN/react-template.git
 
 ```
 npm install
+
+npm install sass
 ```
 
 ### Running

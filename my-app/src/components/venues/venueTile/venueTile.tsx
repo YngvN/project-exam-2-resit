@@ -14,7 +14,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/zoom";
 
-
+/**
+ * Represents a single venue with all relevant data for display.
+ */
 interface Venue {
     id: string;
     name: string;
@@ -23,8 +25,8 @@ interface Venue {
     price: number;
     maxGuests: number;
     rating: number;
-    created: string; 
-    updated: string; 
+    created: string;
+    updated: string;
     meta: {
         wifi: boolean;
         parking: boolean;
@@ -42,17 +44,31 @@ interface Venue {
     };
 }
 
-
+/**
+ * Props for the VenueTile component.
+ * @property {Venue} venue - The venue data used to render the tile and modal content.
+ */
 interface VenueTileProps {
     venue: Venue;
 }
 
+/**
+ * Renders a clickable venue tile that opens a modal with full venue details.
+ * Supports Swiper image gallery, booking overlay, and dynamic content loading.
+ *
+ * @param {VenueTileProps} props - Component props including a single venue.
+ * @returns {JSX.Element} Rendered venue tile and associated modal.
+ */
 const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [venueDetails, setVenueDetails] = useState<Venue | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+    const [showBooking, setShowBooking] = useState(false);
 
+    /**
+     * Opens the modal and fetches full venue details from the API.
+     */
     const openModal = async () => {
         setIsModalOpen(true);
         try {
@@ -66,13 +82,14 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
         }
     };
 
+    /**
+     * Closes the modal and clears venue detail state.
+     */
     const closeModal = () => {
         setIsModalOpen(false);
         setVenueDetails(null);
         setError("");
     };
-    const [showBooking, setShowBooking] = useState(false);
-
 
     return (
         <>
@@ -115,28 +132,27 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
                             <div className={`venue-details-modal ${showBooking ? "hidden" : ""}`}>
                                 <h2>{venueDetails.name}</h2>
                                 {venueDetails.media.length > 1 ? (
-                                <Swiper
-                                    className="venue-image-swiper"
-                                    modules={[Navigation, Pagination, Zoom]}
-                                    spaceBetween={10}
-                                    navigation
-                                    pagination={{ clickable: true }}
-                                    loop
-                                    zoom
-                                >
-                                    {venueDetails.media.map((image, index) => (
-                                        <SwiperSlide key={index}>
-                                            <div className="swiper-zoom-container">
-                                                <img
-                                                    src={image.url}
-                                                    alt={image.alt || `Image ${index + 1}`}
-                                                    className="venue-image"
-                                                />
-                                            </div>
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
-
+                                    <Swiper
+                                        className="venue-image-swiper"
+                                        modules={[Navigation, Pagination, Zoom]}
+                                        spaceBetween={10}
+                                        navigation
+                                        pagination={{ clickable: true }}
+                                        loop
+                                        zoom
+                                    >
+                                        {venueDetails.media.map((image, index) => (
+                                            <SwiperSlide key={index}>
+                                                <div className="swiper-zoom-container">
+                                                    <img
+                                                        src={image.url}
+                                                        alt={image.alt || `Image ${index + 1}`}
+                                                        className="venue-image"
+                                                    />
+                                                </div>
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
                                 ) : (
                                     <img
                                         src={venueDetails.media[0]?.url || "https://via.placeholder.com/300"}
@@ -171,8 +187,6 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
                         )
                     )}
                     {showBooking && <VenueBooking onClose={() => setShowBooking(false)} />}
-
-                    
                 </ModalComponent>
             )}
         </>

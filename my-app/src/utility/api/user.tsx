@@ -83,7 +83,7 @@ export function getUserData(): User | null {
         if (!stored) return null;
 
         const parsed = JSON.parse(stored);
-        return parsed?.data ?? null;
+        return parsed?.data?.data ?? null;
     } catch (error) {
         console.error("Failed to parse userData:", error);
         return null;

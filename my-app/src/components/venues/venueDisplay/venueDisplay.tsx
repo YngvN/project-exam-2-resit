@@ -5,6 +5,9 @@ import { makeRequest } from "../../../utility/api/url";
 import LoadingComponent from "../../icons/loading/loadingComponent";
 import { deduplicateByKey } from "../../../utility/deduplicater";
 
+/**
+ * Represents a single venue with location, media, and meta details.
+ */
 interface Venue {
     id: string;
     name: string;
@@ -32,13 +35,23 @@ interface Venue {
     };
 }
 
+/**
+ * Displays all venues with paginated loading and deduplication.
+ * Uses `makeRequest` to fetch venues and appends them to the list.
+ *
+ * @returns {JSX.Element} The component that renders venue tiles and a Show More button.
+ */
 export const VenueDisplayAll: React.FC = () => {
     const [venues, setVenues] = useState<Venue[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [isLastPage, setIsLastPage] = useState(false); // Tracks if the last page is reached
+    const [isLastPage, setIsLastPage] = useState(false);
 
+    /**
+     * Fetches venues from API and updates state with deduplicated results.
+     * @param {number} page - The page number to fetch.
+     */
     const fetchVenues = async (page: number) => {
         try {
             setIsLoading(true);
@@ -48,7 +61,7 @@ export const VenueDisplayAll: React.FC = () => {
                 const combined = [...prevVenues, ...fetchedVenues];
                 return deduplicateByKey(combined, (v) => v.id);
             });
-            setIsLastPage(fetchedVenues.length === 0); // Check if no more venues are returned
+            setIsLastPage(fetchedVenues.length === 0);
         } catch (err: any) {
             setError(err.message || "Failed to fetch venues.");
         } finally {
@@ -57,9 +70,12 @@ export const VenueDisplayAll: React.FC = () => {
     };
 
     useEffect(() => {
-        fetchVenues(1); // Fetch the first page on initial load
+        fetchVenues(1);
     }, []);
 
+    /**
+     * Handles loading the next page of venues.
+     */
     const handleShowMore = () => {
         const nextPage = currentPage + 1;
         setCurrentPage(nextPage);
@@ -68,8 +84,8 @@ export const VenueDisplayAll: React.FC = () => {
 
     return (
         <div className="venue-display">
-            <h1 className="venue-display-title">Available Venues</h1>
-            {isLoading && currentPage === 1 && <LoadingComponent />} {/* Show loading only for the first page */}
+            <h2 className="venue-display-title">Available Venues</h2>
+            {isLoading && currentPage === 1 && <LoadingComponent />}
             {error && <p className="error-message">{error}</p>}
             <div className="venue-list">
                 {venues.map((venue) => (
@@ -81,16 +97,26 @@ export const VenueDisplayAll: React.FC = () => {
                     Show More
                 </button>
             )}
-            {isLoading && currentPage > 1 && <LoadingComponent />} {/* Show loading when fetching more */}
+            {isLoading && currentPage > 1 && <LoadingComponent />}
             {isLastPage && <p className="no-more-venues">No more venues available.</p>}
         </div>
     );
-};
+}
 
+/**
+ * Props for the VenueSearchDisplay component.
+ */
 interface VenueSearchDisplayProps {
     searchParams: Record<string, any>;
 }
 
+/**
+ * Displays search results for venues based on the provided search parameters.
+ * Fetches filtered venues from the API and shows how many were found.
+ *
+ * @param {VenueSearchDisplayProps} props - The search parameters to use in the query.
+ * @returns {JSX.Element} The component showing filtered venue results.
+ */
 export const VenueSearchDisplay: React.FC<VenueSearchDisplayProps> = ({ searchParams }) => {
     const [venues, setVenues] = useState<Venue[]>([]);
     const [isLoading, setIsLoading] = useState(true);

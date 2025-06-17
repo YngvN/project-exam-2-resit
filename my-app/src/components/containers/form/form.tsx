@@ -1,10 +1,9 @@
 import React from "react";
-import "./form.scss"; // Optional: Create form.scss for custom styles if needed
-
+import "./form.scss"; 
 interface FormContainerProps {
-    title: string; // Title of the form
-    error?: string; // Optional error message
-    children: React.ReactNode; // Form content (e.g., inputs, buttons)
+    title: string; 
+    error?: string;
+    children: React.ReactNode;
 }
 
 const FormContainer: React.FC<FormContainerProps> = ({ title, error, children }) => {

@@ -11,6 +11,8 @@ A simple template using React among other things
 - [SASS](https://sass-lang.com/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Swiper](https://www.typescriptlang.org/)
+- React calendar
+- React date range
 
 
 

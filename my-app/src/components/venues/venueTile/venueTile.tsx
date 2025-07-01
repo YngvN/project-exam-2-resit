@@ -14,9 +14,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/zoom";
 
-/**
- * Represents a single venue with all relevant data for display.
- */
 interface Venue {
     id: string;
     name: string;
@@ -42,23 +39,13 @@ interface Venue {
         lat: number;
         lng: number;
     };
+    bookings?: { dateFrom: string; dateTo: string }[]; // Nytt felt
 }
 
-/**
- * Props for the VenueTile component.
- * @property {Venue} venue - The venue data used to render the tile and modal content.
- */
 interface VenueTileProps {
     venue: Venue;
 }
 
-/**
- * Renders a clickable venue tile that opens a modal with full venue details.
- * Supports Swiper image gallery, booking overlay, and dynamic content loading.
- *
- * @param {VenueTileProps} props - Component props including a single venue.
- * @returns {JSX.Element} Rendered venue tile and associated modal.
- */
 const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [venueDetails, setVenueDetails] = useState<Venue | null>(null);
@@ -66,14 +53,19 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
     const [error, setError] = useState("");
     const [showBooking, setShowBooking] = useState(false);
 
-    /**
-     * Opens the modal and fetches full venue details from the API.
-     */
     const openModal = async () => {
         setIsModalOpen(true);
         try {
             setIsLoading(true);
-            const response = await makeRequest(`holidaze/venues/${venue.id}`, "", "", "GET", null, {}, true);
+            const response = await makeRequest(
+                `holidaze/venues/${venue.id}`,
+                "",
+                "",
+                "GET",
+                null,
+                { _bookings: true },
+                true
+            );
             setVenueDetails(response.data);
         } catch (err: any) {
             setError("Failed to fetch venue details.");
@@ -82,9 +74,6 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
         }
     };
 
-    /**
-     * Closes the modal and clears venue detail state.
-     */
     const closeModal = () => {
         setIsModalOpen(false);
         setVenueDetails(null);
@@ -120,6 +109,7 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
                     </div>
                 </div>
             </div>
+            
 
             {isModalOpen && (
                 <ModalComponent isOpen={isModalOpen} onClose={closeModal}>
@@ -186,7 +176,13 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
                             </div>
                         )
                     )}
-                    {showBooking && <VenueBooking onClose={() => setShowBooking(false)} />}
+                    {showBooking && venueDetails && (
+                        <VenueBooking
+                            venueId={venueDetails.id}
+                            bookings={venueDetails.bookings || []}
+                            onClose={() => setShowBooking(false)}
+                        />
+                    )}
                 </ModalComponent>
             )}
         </>

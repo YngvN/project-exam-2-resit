@@ -1,3 +1,4 @@
+import MessageModalComponent from "../../components/modal/messageModal/messageModalComponent";
 import ModalComponent from "../../components/modal/modalComponent";
 
 const baseURL = "https://v2.api.noroff.dev/";
@@ -19,10 +20,25 @@ function getDefaultHeaders(authRequired: boolean = true): HeadersInit {
     return headers;
 }
 
-// Function to get the token from storage or fallback to the hardcoded token
+// Function to get the token from storage or throw if missing
 function getAccessToken(): string {
-    const userData = JSON.parse(localStorage.getItem("userData") || sessionStorage.getItem("userData") || "null");
-    return userData?.data?.accessToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSG9saWRheXp6IiwiZW1haWwiOiJob2xpZGF5ekBzdHVkLm5vcm9mZi5ubyIsImlhdCI6MTczNjcxMjQ0NH0.6NoPN8vaT8XopU9b_RVliYPLHaDQZOgzpq2Bx8qOPsE";
+    const userData =
+        localStorage.getItem("userData") || sessionStorage.getItem("userData");
+
+    if (!userData) {
+        throw new Error("Access token not found: userData is missing from storage.");
+    }
+
+    try {
+        const parsed = JSON.parse(userData);
+        const token = parsed?.data?.accessToken;
+        if (!token) {
+            throw new Error("Access token not found in userData.");
+        }
+        return token;
+    } catch (error) {
+        throw new Error("Failed to parse userData or retrieve access token.");
+    }
 }
 
 /**
@@ -97,9 +113,9 @@ function handleAPIError(errorData: any): void {
     console.error(errorMessage);
 
     // Use ModalComponent to display the error message
-    <ModalComponent isOpen={true} onClose={() => { }}>
+    <MessageModalComponent isOpen={true} onClose={() => { }}>
         <p>{errorMessage}</p>
-    </ModalComponent>;
+    </MessageModalComponent>;
 }
 
 /**

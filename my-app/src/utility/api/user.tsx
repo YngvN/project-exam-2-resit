@@ -1,91 +1,86 @@
-interface Avatar {
-    url: string;
-    alt: string;
+interface UserData {
+    data: {
+        [key: string]: any;
+    };
+    meta?: {
+        [key: string]: any;
+    };
 }
-
-interface Banner {
-    url: string;
-    alt: string;
-}
-
-export interface User {
-    name: string;
-    email: string;
-    bio: string | null;
-    avatar: Avatar;
-    banner: Banner;
-    accessToken: string;
-}
-
-const STORAGE_KEY = "userData";
 
 /**
- * Stores the user data in either localStorage or sessionStorage based on the persistent flag.
- * The data is wrapped inside an object: { data: user }.
- *
- * @param {User} userData - The user data object to store.
- * @param {boolean} [persistent=true] - Whether to store in localStorage (true) or sessionStorage (false).
+ * Stores the user data object in either localStorage or sessionStorage based on the persistent flag.
+ * @param {UserData} userData - The data to be stored.
+ * @param {boolean} persistent - Determines whether to use localStorage (true) or sessionStorage (false).
  */
-export function storeUserData(userData: User, persistent: boolean = true): void {
+export function storeUserData(userData: UserData, persistent: boolean = true): void {
     const storage = persistent ? localStorage : sessionStorage;
-    try {
-        const wrapped = { data: userData };
-        storage.setItem(STORAGE_KEY, JSON.stringify(wrapped));
-        console.log("Stored userData");
-    } catch (error) {
-        console.error("Failed to store userData:", error);
-    }
+    storage.setItem("userData", JSON.stringify(userData));
+    console.log("Stored userData");
 }
 
 /**
- * Updates the stored user data by shallow-merging it with new data.
- * Does nothing if no existing data is found.
- *
- * @param {Partial<User>} newUserData - Partial user object to merge with the existing data.
- * @param {boolean} [persistent=true] - Whether to store the update in localStorage or sessionStorage.
+ * Updates the existing user data object in storage by merging it with new data.
+ * New values will overwrite existing values with the same key.
+ * @param {UserData} newUserData - The new data to be merged into the existing object.
+ * @param {boolean} persistent - Determines whether to update data in localStorage (true) or sessionStorage (false).
  */
-export function updateUserData(newUserData: Partial<User>, persistent: boolean = true): void {
-    const existing = getUserData();
-    if (!existing) return;
+export function updateUserData(newUserData: UserData, persistent: boolean = true): void {
+    const storage = persistent ? localStorage : sessionStorage;
+    const existingRaw = storage.getItem("userData");
+    const existingData: UserData = existingRaw ? JSON.parse(existingRaw) : { data: {} };
 
-    const updated: User = { ...existing, ...newUserData };
-    storeUserData(updated, persistent);
+    const updatedData: UserData = {
+        ...existingData,
+        data: {
+            ...(existingData.data || {}),
+            ...(newUserData.data || {})
+        },
+        meta: {
+            ...(existingData.meta || {}),
+            ...(newUserData.meta || {})
+        }
+    };
+
+    storage.setItem("userData", JSON.stringify(updatedData));
     console.log("Updated userData");
 }
 
 /**
- * Deletes user data from both localStorage and sessionStorage.
- * Useful for logout or reset.
+ * Deletes the user data from both localStorage and sessionStorage.
  */
 export function deleteUserData(): void {
-    localStorage.removeItem(STORAGE_KEY);
-    sessionStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem("userData");
+    sessionStorage.removeItem("userData");
     console.log("Deleted userData from both storages");
 }
 
 /**
- * Checks if the user is currently logged in by verifying presence of stored data.
- *
- * @returns {boolean} True if user data is present in either storage, false otherwise.
+ * Checks if the user is logged in by verifying the presence of user data in storage.
+ * @returns {boolean} - True if user data exists, otherwise false.
  */
 export function isUserLoggedIn(): boolean {
-    return !!(localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY));
+    const localData = localStorage.getItem("userData");
+    const sessionData = sessionStorage.getItem("userData");
+    console.log("Checking login status");
+
+    return !!(localData || sessionData);
 }
 
 /**
- * Retrieves the current user data from storage (local or session).
- *
- * @returns {User | null} The user object if found, otherwise null.
+ * Retrieves user data from either localStorage or sessionStorage.
+ * @returns {any} - Parsed user data or null if not found.
  */
-export function getUserData(): User | null {
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
-        if (!stored) return null;
+export function getUserData(): any {
+    const localData = localStorage.getItem("userData");
+    const sessionData = sessionStorage.getItem("userData");
 
-        const parsed = JSON.parse(stored);
-        return parsed?.data?.data ?? null;
-    } catch (error) {
-        console.error("Failed to parse userData:", error);
-        return null;
-    }
+    console.log("Getting userData");
+
+    const parsedData: UserData | null = localData
+        ? JSON.parse(localData)
+        : sessionData
+        ? JSON.parse(sessionData)
+        : null;
+
+    return parsedData?.data || null;
 }

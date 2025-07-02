@@ -15,7 +15,7 @@ interface UserData {
 export function storeUserData(userData: UserData, persistent: boolean = true): void {
     const storage = persistent ? localStorage : sessionStorage;
     storage.setItem("userData", JSON.stringify(userData));
-    console.log("Stored userData");
+    // console.log("Stored userData");
 }
 
 /**
@@ -42,7 +42,7 @@ export function updateUserData(newUserData: UserData, persistent: boolean = true
     };
 
     storage.setItem("userData", JSON.stringify(updatedData));
-    console.log("Updated userData");
+    // console.log("Updated userData");
 }
 
 /**
@@ -61,7 +61,8 @@ export function deleteUserData(): void {
 export function isUserLoggedIn(): boolean {
     const localData = localStorage.getItem("userData");
     const sessionData = sessionStorage.getItem("userData");
-    console.log("Checking login status");
+
+    // console.log("Checking login status");
 
     return !!(localData || sessionData);
 }
@@ -74,7 +75,7 @@ export function getUserData(): any {
     const localData = localStorage.getItem("userData");
     const sessionData = sessionStorage.getItem("userData");
 
-    console.log("Getting userData");
+    // console.log("Getting userData");
 
     const parsedData: UserData | null = localData
         ? JSON.parse(localData)

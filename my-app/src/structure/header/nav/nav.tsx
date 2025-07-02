@@ -7,6 +7,7 @@ import './nav.scss';
 const Nav: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
+    const [isManager, setIsManager] = useState(false);
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const navigate = useNavigate();
 
@@ -14,18 +15,18 @@ const Nav: React.FC = () => {
         if (isUserLoggedIn()) {
             const userData = getUserData();
             setUsername(userData?.name || 'User');
+            setIsManager(userData?.venueManager === true);
             setIsLoggedIn(true);
         } else {
             setIsLoggedIn(false);
             setUsername('');
+            setIsManager(false);
         }
     };
 
     useEffect(() => {
-        // Initial check
         updateUserInfo();
 
-        // Listen for changes in localStorage or sessionStorage
         const handleStorageChange = () => updateUserInfo();
 
         window.addEventListener('storage', handleStorageChange);
@@ -50,19 +51,20 @@ const Nav: React.FC = () => {
                 <li>
                     <Link to="/home">Home</Link>
                 </li>
-                <li>
-                    <Link to="/page1">Page 1</Link>
-                </li>
-                <li>
-                    <Link to="/page2">Page 2</Link>
-                </li>
+                {isLoggedIn && (
+                    <li>
+                        <Link to="/bookings">Bookings</Link>
+                    </li>
+                )}
+                {isLoggedIn && isManager && (
+                    <li>
+                        <Link to="/venues">Venues</Link>
+                    </li>
+                )}
                 <li>
                     {isLoggedIn ? (
                         <div className="nav-user-container">
-                            <span
-                                className="nav-username"
-                                onClick={toggleDropdown}
-                            >
+                            <span className="nav-username" onClick={toggleDropdown}>
                                 Hi, {username}
                             </span>
                             {dropdownVisible && (

@@ -87,9 +87,13 @@ export async function makeRequest(
             handleAPIError(errorData);
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
+        if (response.status === 204) return null;
+        
         return await response.json();
     } catch (error) {
         console.error(`Error with ${method} request to ${url}:`, error);
+        handleAPIError(error);
         throw error;
     }
 }
@@ -112,7 +116,6 @@ function handleAPIError(errorData: any): void {
 
     console.error(errorMessage);
 
-    // Use ModalComponent to display the error message
     <MessageModalComponent isOpen={true} onClose={() => { }}>
         <p>{errorMessage}</p>
     </MessageModalComponent>;

@@ -31,8 +31,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from './structure/layout';
 import Login from './pages/login/login';
 import Home from './pages/home/home';
-import Page1 from './pages/page1/page1';
-import Page2 from './pages/page2/page2';
+import Bookings from './pages/bookings/bookings';
+import Venues from './pages/venues/venues';
 import Profile from './pages/profile/profile';
 import RouteNotFound from './pages/404NotFound/404notfound';
 import "./globalStyle/styles.scss";
@@ -46,8 +46,8 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Login />} />
         <Route path="home" element={<Home />} />
-        <Route path="page1" element={<Page1 />} />
-        <Route path="page2" element={<Page2 />} />
+        <Route path="bookings" element={<Bookings />} />
+        <Route path="venues" element={<Venues />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="*" element={<RouteNotFound />} />
       </Route>

@@ -1,5 +1,4 @@
 import React from "react";
-import "./form.scss"; 
 interface FormContainerProps {
     title: string; 
     error?: string;

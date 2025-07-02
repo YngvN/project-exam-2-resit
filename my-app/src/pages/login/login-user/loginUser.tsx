@@ -22,12 +22,23 @@ function LoginUser() {
         };
 
         try {
-            const response = await makeRequest("auth/login", "", "", "POST", credentials, {}, false);
+            const response = await makeRequest(
+                "auth/login",
+                "",
+                "",
+                "POST",
+                credentials,
+                { _holidaze: true }, 
+                false
+            );
 
             if (response) {
                 storeUserData(response, rememberMe);
                 console.log("Login successful!", response);
-                navigate("/home"); // Navigate to the home page on successful login
+                navigate("/home");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 50);
             }
         } catch (err) {
             setError("Login failed. Please check your credentials and try again.");

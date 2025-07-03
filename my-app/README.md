@@ -54,3 +54,4 @@ npm start
 
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0118a21b-3811-4037-8c9e-ca25a87913e0/deploy-status)](https://app.netlify.com/projects/holidaze2025/deploys)
+

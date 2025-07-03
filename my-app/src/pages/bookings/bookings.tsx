@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { makeRequest } from "../../utility/api/url";
 import { getUserData } from "../../utility/api/user";
-import BookingDisplay from "../../components/bookings/bookingsDisplay/bookingsDisplay";
+import AlternateVenueDisplay from "../../components/venues/alternateDisplay/alternateDisplay";
 import "./bookings.scss";
+
+interface Venue {
+    id: string;
+    name: string;
+    media: { url: string; alt: string }[];
+}
+
 
 interface Booking {
     id: string;
@@ -17,7 +24,12 @@ interface Booking {
         media: { url: string; alt: string }[];
     };
 }
-
+/**
+ * Bookings
+ *
+ * Page component that displays all bookings made by the currently logged-in user.
+ * Fetches booking data from the API and renders venue tiles using AlternateVenueDisplay.
+ */
 function Bookings() {
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState(true);
@@ -59,7 +71,7 @@ function Bookings() {
             {loading && <p>Loading bookings...</p>}
             {error && <p className="error-message">{error}</p>}
             {!loading && !error && (
-                <BookingDisplay bookings={bookings} />
+                <AlternateVenueDisplay mode="user-bookings" />
             )}
         </div>
     );

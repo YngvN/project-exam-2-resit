@@ -46,6 +46,14 @@ interface VenueTileProps {
     venue: Venue;
 }
 
+
+/**
+ * VenueTile
+ *
+ * Displays a clickable venue tile with basic info.
+ * On click, opens a modal with full venue details, image carousel, and booking option.
+ * If user is logged in, allows venue booking through a sub-component.
+ */
 const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [venueDetails, setVenueDetails] = useState<Venue | null>(null);
@@ -165,7 +173,7 @@ const VenueTile: React.FC<VenueTileProps> = ({ venue }) => {
                                     <p>{venueDetails.location.city}, {venueDetails.location.country}</p>
                                 </div>
                                 <div className="venue-booking-button">
-                                    <button onClick={() => setShowBooking(true)}>
+                                    <button className="btn-primary" onClick={() => setShowBooking(true)}>
                                         {isUserLoggedIn() ? "Book now" : "Log in to book now"}
                                     </button>
                                 </div>

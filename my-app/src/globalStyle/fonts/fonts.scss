@@ -1,17 +1,38 @@
-@import "./font-poppins.scss";
-@import "./font-shipporo-mincho.scss";
-@import "./font-raleway.scss";
+// @import "./font-poppins.scss";
+// @import "./font-shipporo-mincho.scss";
+// @import "./font-raleway.scss";
 
-$font-stack-header: 'Times New Roman', Times, serif;
-$font-stack-body: Arial;
+// $font-stack-header: 'Times New Roman', Times, serif;
+// $font-stack-body: Arial;
 
-h1 {
-    font-family: 'Raleway', $font-stack-header;
+// h1 {
+//     font-family: 'Raleway', $font-stack-header;
+// }
+
+// h2 {}
+
+// p,
+// label {
+//     font-family: 'Poppins', $font-stack-body;
+// }
+
+$font-stack-sans-serif: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+$font-stack-header: 'Raleway', $font-stack-sans-serif;
+$font-stack-body: 'Poppins', $font-stack-sans-serif;
+$font-stack-serif: 'Shipporo Mincho', "Times New Roman", Times, serif;
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-stack-header;
+    
 }
 
-h2 {}
-
 p,
-label {
-    font-family: 'Poppins', $font-stack-body;
+label,
+body {
+    font-family: $font-stack-body;
+}
+
+blockquote, em, cite {
+    font-family: $font-stack-serif;
+    font-style: italic;
 }

@@ -1,20 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeRequest } from "../../utility/api/url";
-import { getUserData } from "../../utility/api/user";
+import { getAuthData, updateUserData } from "../../utility/api/user";
 import MessageModalComponent from "../../components/modal/messageModal/messageModalComponent";
 
 import "./profile.scss";
 
-function Profile() {
-    const user = getUserData();
-    const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
-    const [bio, setBio] = useState(user?.bio || "");
-    const [avatarUrl, setAvatarUrl] = useState(user?.avatar?.url || "");
-    const [bannerUrl, setBannerUrl] = useState(user?.banner?.url || "");
-    const [statusMessage, setStatusMessage] = useState("");
 
-    const handleSave = async () => {
-        if (!user?.name) {
+/**
+ * Profile
+ *
+ * Displays and allows the authenticated user to update their profile information.
+ * Fetches profile data from the Holidaze API using the stored auth username.
+ * Enables updates to bio, avatar, and banner via a modal form.
+ * Uses `makeRequest` to handle API calls and `MessageModalComponent` for update form UI.
+ */
+function Profile() {
+    const authData = getAuthData();
+    const [user, setUser] = useState<any>(null);
+    const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+    const [bio, setBio] = useState("");
+    const [avatarUrl, setAvatarUrl] = useState("");
+    const [bannerUrl, setBannerUrl] = useState("");
+    const [statusMessage, setStatusMessage] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            if (!authData?.username) return;
+
+            try {
+                const response = await makeRequest("holidaze/profiles", authData.username, "", "GET", null, {}, true);
+                const userData = response?.data;
+                setUser(userData);
+                setBio(userData.bio || "");
+                setAvatarUrl(userData.avatar?.url || "");
+                setBannerUrl(userData.banner?.url || "");
+            } catch (error) {
+                setStatusMessage("Failed to load user profile.");
+                console.error(error);
+            }
+        };
+
+        fetchProfile();
+    }, [authData?.username]);
+
+    const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!authData?.username) {
             setStatusMessage("Missing user information.");
             return;
         }
@@ -26,26 +59,44 @@ function Profile() {
         };
 
         try {
+            setLoading(true);
             await makeRequest(
                 "holidaze/profiles",
-                user.name,
-                "", // no subcategory
+                authData.username,
+                "",
                 "PUT",
                 payload,
-                {}, // no query params
+                {},
                 true
             );
+
+            const updatedResponse = await makeRequest("holidaze/profiles", authData.username, "", "GET", null, {}, true);
+            updateUserData({ data: updatedResponse.data, meta: {} });
+            setUser(updatedResponse.data);
             setStatusMessage("Profile updated successfully.");
+            setTimeout(() => setIsMessageModalOpen(false), 1500);
         } catch (error) {
             setStatusMessage("Failed to update profile.");
+            console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
+
+    if (!authData?.username) {
+        return (
+            <div className="profile">
+                <h1 className="page-title">Profile</h1>
+                <p>You are not logged in.</p>
+            </div>
+        );
+    }
 
     if (!user) {
         return (
             <div className="profile">
                 <h1 className="page-title">Profile</h1>
-                <p>You are not logged in.</p>
+                <p>Loading...</p>
             </div>
         );
     }
@@ -64,7 +115,7 @@ function Profile() {
                 </div>
             )}
 
-            <button className="update-user-button" onClick={() => setIsMessageModalOpen(true)}>
+            <button className="update-user-button btn-primary" onClick={() => setIsMessageModalOpen(true)}>
                 Update User
             </button>
 
@@ -72,23 +123,23 @@ function Profile() {
                 isOpen={isMessageModalOpen}
                 onClose={() => setIsMessageModalOpen(false)}
             >
-                <form className="form-group">
+                <form className="form-group" onSubmit={handleSave}>
                     <h2>Update Profile</h2>
                     <label>
                         Bio:
-                        <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
+                        <textarea value={bio} onChange={(e) => setBio(e.target.value)} disabled={loading} />
                     </label>
                     <label>
                         Avatar URL:
-                        <input type="text" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} />
+                        <input type="text" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} disabled={loading} />
                     </label>
                     <label>
                         Banner URL:
-                        <input type="text" value={bannerUrl} onChange={(e) => setBannerUrl(e.target.value)} />
+                        <input type="text" value={bannerUrl} onChange={(e) => setBannerUrl(e.target.value)} disabled={loading} />
                     </label>
                     <div className="modal-actions">
-                        <button className="btn btn-primary" onClick={handleSave}>Save</button>
-                        <button className="btn btn-secondary" onClick={() => setIsMessageModalOpen(false)}>Cancel</button>
+                        <button className="btn btn-primary" type="submit" disabled={loading}>Save</button>
+                        <button className="btn btn-danger" type="button" onClick={() => setIsMessageModalOpen(false)} disabled={loading}>Cancel</button>
                     </div>
                     {statusMessage && <p className="status-message">{statusMessage}</p>}
                 </form>

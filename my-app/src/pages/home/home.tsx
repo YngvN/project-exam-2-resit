@@ -2,6 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./home.scss";
 import { VenueDisplayAll, VenueSearchDisplay } from "../../components/venues/venueDisplay/venueDisplay";
 
+/**
+ * Home
+ *
+ * Main landing page displaying all venues by default.
+ * Includes search input and filter checkboxes for querying venues based on name and metadata (wifi, parking, breakfast, pets).
+ * Dynamically switches between full venue list and filtered search results using debounce.
+ */
 function Home() {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchParams, setSearchParams] = useState<Record<string, any>>({});
@@ -22,9 +29,9 @@ function Home() {
         const combinedParams = { q: searchQuery, ...activeFilters };
 
         if (searchQuery.trim() === "" && Object.keys(activeFilters).length === 0) {
-            setIsSearching(false); // Reset to show all venues if no query or filters
+            setIsSearching(false);
         } else {
-            setSearchParams(combinedParams); // Update search params for the search component
+            setSearchParams(combinedParams); 
             setIsSearching(true);
         }
     };
@@ -58,15 +65,13 @@ function Home() {
             clearTimeout(debounceTimeout);
         }
 
-        // Set a new debounce timeout
         const timeout = setTimeout(() => {
             handleSearch();
-        }, 500); // 500ms debounce delay
+        }, 500);
 
         setDebounceTimeout(timeout as unknown as number);
     };
 
-    // Perform a search whenever filters change
     useEffect(() => {
         handleSearch();
     }, [filters]);
@@ -82,54 +87,13 @@ function Home() {
                     placeholder="Search for venues..."
                     className="search-input"
                 />
-                <button onClick={handleReset} className="reset-button">
+                <button onClick={handleReset} className="btn-danger">
                     Reset
                 </button>
-                <button onClick={toggleFilters} className="filter-button">
-                    {filtersVisible ? "Hide Filters" : "Show Filters"}
-                </button>
+
             </div>
 
-            {filtersVisible && (
-                <div className="filters-container">
-                    <label>
-                        <input
-                            type="checkbox"
-                            name="wifi"
-                            checked={filters.wifi}
-                            onChange={handleFilterChange}
-                        />
-                        Wi-Fi
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            name="parking"
-                            checked={filters.parking}
-                            onChange={handleFilterChange}
-                        />
-                        Parking
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            name="breakfast"
-                            checked={filters.breakfast}
-                            onChange={handleFilterChange}
-                        />
-                        Breakfast
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            name="pets"
-                            checked={filters.pets}
-                            onChange={handleFilterChange}
-                        />
-                        Pets Allowed
-                    </label>
-                </div>
-            )}
+
 
             {isSearching && Object.keys(searchParams).length > 0 ? (
                 <VenueSearchDisplay searchParams={searchParams} />

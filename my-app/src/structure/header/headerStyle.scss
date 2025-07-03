@@ -1,14 +1,30 @@
 header {
     display: flex;
+    z-index: 1000;
+    position: fixed;
     flex-direction: row;
     justify-content: space-between;
     margin-inline: auto;
     padding-inline: 1rem;
     max-width: 1200px;
+    width: 100%;
 
     @media screen and (max-width: 768px) {
         flex-direction: column;
+
+        .logo-component {
+            position: absolute;
+            left: 40%;
+        }
+
+        .header-nav {
+            margin-top: 1.5em;
+        }
+
     }
 
 
+
+
 }
+

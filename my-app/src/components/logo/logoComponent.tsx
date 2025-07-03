@@ -6,14 +6,8 @@ function LogoComponent() {
 
     return (
         <div className="logo-component">
-            <span>H</span>
-            <span>O</span>
-            <span>L</span>
-            <span>I</span>
-            <span>D</span>
-            <span>A</span>
-            <span>Z</span>
-            <span>E</span>
+            <span className="logo-h">H</span>
+            <span className="logo-d">D</span>
         </div>
     );
 }

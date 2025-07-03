@@ -1,7 +1,6 @@
 /**
  * Removes duplicate objects from an array based on a key.
  *
- * @template T
  * @param {T[]} array - The array of objects to deduplicate.
  * @param {(item: T) => string} getKey - A function that returns the unique key for each object.
  * @returns {T[]} A new array with only unique items.

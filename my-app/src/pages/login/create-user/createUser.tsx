@@ -3,10 +3,21 @@ import { makeRequest } from "../../../utility/api/url";
 import { useNavigate } from "react-router-dom";
 import { getInputClass } from "../../../components/inputs/inputs";
 import FormContainer from "../../../components/containers/form/form";
-import { PrimaryButton } from "../../../components/buttons/buttons";
 
 import "../../../components/inputs/inputs.scss";
 
+
+/**
+ * CreateUser component
+ *
+ * A user registration form that includes:
+ * - Field validation (username, email, password, avatar URL)
+ * - Username availability check via API
+ * - Optional venue manager checkbox
+ * - Form submission with error/success handling
+ *
+ * On success, the user is redirected to /home.
+ */
 function CreateUser() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -30,10 +41,10 @@ function CreateUser() {
 
     const validateUsername = async (value: string): Promise<void> => {
         const regex = /^[a-zA-Z0-9_]+$/;
-        setUsernameError(""); // Clear previous error
-        setUsernameAvailability(""); // Clear previous availability state
+        setUsernameError(""); 
+        setUsernameAvailability(""); 
 
-        if (!value) return; // Skip search for empty input
+        if (!value) return; 
 
         if (!regex.test(value)) {
             setUsernameError("Username can only contain letters, numbers, and underscores.");
@@ -127,7 +138,7 @@ function CreateUser() {
     return (
         <FormContainer title="Create User" error={error}>
             {success && <p className="success-message">User created successfully!</p>}
-            <form className="create-user-form" onSubmit={handleCreateUser}>
+            <form className="create-user-form login-form" onSubmit={handleCreateUser}>
                 <div className="form-group">
                     <label htmlFor="username">Username</label>
                     <input
@@ -236,7 +247,7 @@ function CreateUser() {
                     </label>
                 </div>
                 <div className="button-container">
-                    <PrimaryButton type="submit" label="Create User" className="create-user-button" />
+                    <button type="submit" className="create-user-button btn-primary">Create user</button>
                 </div>
             </form>
         </FormContainer>

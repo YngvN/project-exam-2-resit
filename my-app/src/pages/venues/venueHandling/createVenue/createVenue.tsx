@@ -6,6 +6,13 @@ interface CreateVenueFormProps {
     onSuccess: () => void;
 }
 
+/**
+ * CreateVenue
+ *
+ * Wrapper component that uses `VenueForm` to create a new venue.
+ * Transforms form data into API-compatible payload and submits it to Holidaze API.
+ * Calls `onSuccess` callback after successful creation.
+ */
 const CreateVenue: React.FC<CreateVenueFormProps> = ({ onSuccess }) => {
     const handleSubmit = async (formData: any) => {
         const payload: any = {

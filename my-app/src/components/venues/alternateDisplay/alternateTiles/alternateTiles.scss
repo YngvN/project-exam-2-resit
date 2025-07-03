@@ -1,0 +1,64 @@
+.my-venue-tile {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    max-width: 300px;
+  
+    &:hover {
+      background-color: #f7f7f7;
+    }
+  
+    .venue-image {
+      flex-shrink: 0;
+      width: 160px;
+      height: 90px;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      background-color: #eee;
+  
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
+  
+    .venue-details {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+  
+      .venue-name {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+        color: #222;
+      }
+  
+      .venue-meta-line {
+        font-size: 0.85rem;
+        color: #555;
+        margin-bottom: 0.3rem;
+      }
+  
+      .venue-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+  
+        span {
+          font-size: 0.8rem;
+          background-color: #eaeaea;
+          padding: 0.2rem 0.5rem;
+          border-radius: 0.25rem;
+        }
+      }
+    }
+  }
+  

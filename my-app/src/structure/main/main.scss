@@ -9,3 +9,12 @@ main {
     padding-inline: 1rem;
     max-width: 1200px;
 }
+
+.page-title {
+    font-size: 5rem;
+
+    @media screen and (max-width: 768px) {
+        margin-top: 2em;
+        font-size: 3rem;
+    }
+}

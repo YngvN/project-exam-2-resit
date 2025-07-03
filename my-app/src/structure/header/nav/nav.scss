@@ -1,103 +1,143 @@
 @import '../../../globalStyle/fonts/fonts.scss';
 @import '../../../globalStyle/colors.scss';
+@import '../../../components/icons/hamburger/hamburger.scss';
 
-nav {
-    display: flex;
-    padding: 1rem; // Add spacing inside the nav
-    width: 100%;
-    align-items: center;
-
-    ul {
-        display: flex;
-        width: 100%;
-        max-width: 1200px;
-        flex-direction: row;
-        justify-content: space-evenly;
-        gap: 1rem;
-        margin: 0;
-        padding: 0;
-
-        li {
-            list-style: none;
-
-            a {
-                font-family: 'Raleway', sans-serif;
-                font-size: 1rem;
-                color: #007bff;
-                text-decoration: none;
-                padding: 0.5rem 1rem;
-                border-radius: 4px;
-                transition: background-color 0.3s ease, color 0.3s ease;
-
-                &:hover {
-                    background-color: #e9ecef;
-                    color: #0056b3;
-                }
-
-                &:active {
-                    background-color: #d6d8db;
-                }
-            }
-        }
-    }
-
-    @media screen and (max-width: 768px) {
-        padding: 0; // Add spacing inside the nav
-    }
+header {
+  a {
+    text-decoration: none;
+  }
 }
 
-.nav-user-container {
-    position: relative;
-    display: inline-block;
+.header-nav {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  position: relative;
 
-    .nav-username {
-        cursor: pointer;
-        font-weight: bold;
-        color: #007bff;
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 1rem;
+    margin: 0;
+    padding: 1em;
+    max-width: 1200px;
+    width: max-content;
+    background-color: map-get(map-get($colors-light, primary), base);
+
+    li {
+      list-style: none;
+      position: relative;
+
+      a,
+      .dropdown-item,
+      .nav-username {
+        font-family: 'Raleway', sans-serif;
+        font-size: 1rem;
+        color: map-get($colors-light, font);
         text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
 
         &:hover {
-            color: #0056b3;
+          background-color: #e9ecef95;
+          color: #0056b3;
         }
-    }
 
-    .user-dropdown {
+        &:active {
+          background-color: #d6d8db;
+        }
+      }
+
+      .logout-button {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+
+        &:hover {
+          background-color: darkred;
+        }
+      }
+
+      .user-dropdown {
         position: absolute;
         top: 100%;
-        right: 0;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        left: 0;
+        min-width: 180px;
+        display: flex;
+        flex-direction: column;
+        background-color: map-get(map-get($colors-light, primary), base);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 0 0 8px 8px;
         z-index: 10;
-        min-width: 150px;
 
         .dropdown-item {
-            display: block;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            color: #007bff;
-            font-size: 0.9rem;
+          padding: 0.75rem 1.5rem;
 
-            &:hover {
-                background-color: #f8f9fa;
-                color: #0056b3;
-            }
-
-            &.logout-button {
-                background: none;
-                border: none;
-                width: 100%;
-                text-align: left;
-                padding: 0.5rem 1rem;
-                cursor: pointer;
-                color: #dc3545;
-
-                &:hover {
-                    background-color: #f8d7da;
-                    color: #a71d2a;
-                }
-            }
+          &:hover,
+          &:focus {
+            background-color: #f2f2f2;
+            color: #0056b3;
+          }
+          }
         }
+        @media screen and (min-width: 768px) {
+          .user-dropdown {
+            left: -1.7em;
+          }
+      }
     }
+  }
+
+  // Mobile styles
+  @media screen and (max-width: 768px) {
+    padding: 0;
+
+    ul {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      padding: 0.5rem 0;
+      border-radius: 0 0 8px 8px;
+      background-color: map-get(map-get($colors-light, primary), base);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      z-index: 20;
+
+      &.open {
+        display: flex;
+      }
+
+      li {
+        width: 100%;
+
+        a,
+        .dropdown-item {
+          display: block;
+          width: 100%;
+          padding: 0.75rem 1.5rem;
+        }
+
+        .user-dropdown {
+          position: relative;
+          top: 0;
+          left: 0;
+          width: 100%;
+          box-shadow: none;
+          border-radius: 0;
+        }
+
+        .logout-button {
+          margin: 0;
+        }
+      }
+    }
+  }
 }

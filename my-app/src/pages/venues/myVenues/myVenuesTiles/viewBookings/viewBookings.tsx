@@ -19,6 +19,15 @@ interface ViewBookingsProps {
     onClose?: () => void;
 }
 
+
+/**
+ * ViewBookings
+ *
+ * Displays all bookings for a specific venue.
+ * Shows booked dates on a calendar and lists upcoming bookings with details.
+ * Fetches data from the Holidaze API using the venue ID.
+ * Optional close button if `onClose` is provided.
+ */
 const ViewBookings: React.FC<ViewBookingsProps> = ({ venueId, onClose }) => {
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [bookedDates, setBookedDates] = useState<Date[]>([]);

@@ -14,6 +14,12 @@ interface VenueBookingProps {
     bookings: Booking[];
 }
 
+/**
+ * VenueBooking
+ *
+ * Modal component for booking a venue. Displays a calendar with unavailable dates,
+ * allows users to select a valid date range and number of guests, and submits the booking.
+ */
 const VenueBooking: React.FC<VenueBookingProps> = ({ onClose, venueId, bookings }) => {
     const [bookedDates, setBookedDates] = useState<Date[]>([]);
     const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
@@ -99,12 +105,12 @@ const VenueBooking: React.FC<VenueBookingProps> = ({ onClose, venueId, bookings 
                             required
                         />
                     </label>
-                    <button type="submit">Confirm Booking</button>
+                    <button className="btn-primary" type="submit">Confirm Booking</button>
                 </form>
 
                 {statusMessage && <p className="status-message">{statusMessage}</p>}
 
-                <button className="close-button" onClick={onClose}>Cancel</button>
+                <button className="btn-small" onClick={onClose}>Cancel</button>
             </div>
         </div>
     );

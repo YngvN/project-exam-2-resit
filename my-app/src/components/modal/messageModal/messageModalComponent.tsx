@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import XIcon from "../../icons/xIcon/xIcon";
 import "./messageModalComponent.scss";
 
@@ -18,11 +18,35 @@ interface MessageModalComponentProps {
  * @param {string[]} [messages] - Optional list of messages to show.
  * @param {ReactNode} [children] - Optional custom content to render.
  */
-const MessageModalComponent: React.FC<MessageModalComponentProps> = ({ isOpen, onClose, messages = [], children }) => {
-    if (!isOpen) return null;
+const MessageModalComponent: React.FC<MessageModalComponentProps> = ({
+    isOpen,
+    onClose,
+    messages = [],
+    children
+}) => {
+    const [visible, setVisible] = useState(isOpen);
+    const [shouldRender, setShouldRender] = useState(isOpen);
+
+    useEffect(() => {
+        if (isOpen) {
+            setShouldRender(true);
+            setVisible(true);
+        } else {
+            setVisible(false);
+            const timer = setTimeout(() => {
+                setShouldRender(false);
+            }, 200); 
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen]);
+
+    if (!shouldRender) return null;
 
     return (
-        <div className="message-modal-overlay" onClick={onClose}>
+        <div
+            className={`message-modal-overlay ${visible ? "fade-in" : "fade-out"}`}
+            onClick={onClose}
+        >
             <div className="message-modal" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
                     <XIcon onClick={onClose} />

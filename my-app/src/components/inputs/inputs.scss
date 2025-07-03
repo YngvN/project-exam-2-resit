@@ -1,24 +1,18 @@
 .input-error {
     border: 2px solid #ff4d4d;
-    /* Red border for error */
     background-color: #ffe6e6;
-    /* Light red background */
     transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .input-success {
     border: 2px solid #4caf50;
-    /* Green border for success */
     background-color: #e8f5e9;
-    /* Light green background */
     transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 input {
     border: 2px solid #cccccc;
-    /* Default border */
     background-color: #ffffff;
-    /* Default background */
     padding: 10px;
     border-radius: 5px;
     font-size: 16px;
@@ -28,21 +22,17 @@ input {
 
 input:focus {
     border-color: #80bdff;
-    /* Blue border on focus */
     background-color: #f0f8ff;
-    /* Light blue background on focus */
 }
 
 .availability-message {
     margin-top: 5px;
     font-size: 14px;
     color: #4caf50;
-    /* Green for success */
 }
 
 .error-message {
     margin-top: 5px;
     font-size: 14px;
     color: #ff4d4d;
-    /* Red for error */
 }

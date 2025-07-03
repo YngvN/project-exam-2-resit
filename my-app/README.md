@@ -1,7 +1,9 @@
-# My React template
 
-A simple template using React among other things
 
+# Holidaze Project exam
+
+## Description
+My delivery for PE2 using Noroff API to make a Airbnb type site.
 
 
 ## Built With
@@ -9,10 +11,12 @@ A simple template using React among other things
 
 - [React.js](https://reactjs.org/)
 - [SASS](https://sass-lang.com/)
-- [Typescript](https://www.typescriptlang.org/)
-- [Swiper](https://www.typescriptlang.org/)
-- React calendar
-- React date range
+- [TypeScript](https://www.typescriptlang.org/)
+- [Swiper](https://swiperjs.com/)
+- [React Calendar](https://github.com/wojtekmaj/react-calendar)
+- [React Date Range](https://github.com/hypeserver/react-date-range)
+- [Noroff API](https://docs.noroff.dev/docs/v2/)
+
 
 
 
@@ -24,7 +28,7 @@ A simple template using React among other things
 1. Clone the repo:
 
 ```bash
-git clone git@github.com:YngvN/react-template.git
+git clone git@github.com:YngvN/project-exam-2-resit
 ```
 
 2. Install the dependencies:
@@ -32,7 +36,6 @@ git clone git@github.com:YngvN/react-template.git
 ```
 npm install
 
-npm install sass
 ```
 
 ### Running

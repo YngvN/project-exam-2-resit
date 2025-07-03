@@ -10,6 +10,13 @@ interface AvailabilityCalendarProps {
     mode?: "view" | "booking";
 }
 
+/**
+ * AvailabilityCalendar component
+ *
+ * Displays a calendar highlighting booked dates and (optionally) allows users to select a date range.
+ * - In "view" mode: shows booked dates only.
+ * - In "booking" mode: enables range selection and disables booked dates.
+ */
 const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
     bookedDates,
     selectedRange = [null, null],

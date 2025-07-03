@@ -2,12 +2,8 @@ import React, { useEffect, useState } from "react";
 import VenueTile from "../venueTile/venueTile";
 import "./venueDisplay.scss";
 import { makeRequest } from "../../../utility/api/url";
-import LoadingComponent from "../../icons/loading/loadingComponent";
 import { deduplicateByKey } from "../../../utility/deduplicater";
 
-/**
- * Represents a single venue with location, media, and meta details.
- */
 interface Venue {
     id: string;
     name: string;
@@ -36,10 +32,10 @@ interface Venue {
 }
 
 /**
- * Displays all venues with paginated loading and deduplication.
- * Uses `makeRequest` to fetch venues and appends them to the list.
+ * VenueDisplayAll
  *
- * @returns {JSX.Element} The component that renders venue tiles and a Show More button.
+ * Displays a paginated list of all available venues.
+ * Fetches additional pages when "Show More" is clicked and avoids duplicates.
  */
 export const VenueDisplayAll: React.FC = () => {
     const [venues, setVenues] = useState<Venue[]>([]);
@@ -48,14 +44,10 @@ export const VenueDisplayAll: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [isLastPage, setIsLastPage] = useState(false);
 
-    /**
-     * Fetches venues from API and updates state with deduplicated results.
-     * @param {number} page - The page number to fetch.
-     */
     const fetchVenues = async (page: number) => {
         try {
             setIsLoading(true);
-            const response = await makeRequest("holidaze/venues", "", "", "GET", null, { page }, true);
+            const response = await makeRequest("holidaze/venues", "", "", "GET", null, { page }, false);
             const fetchedVenues = response.data || [];
             setVenues((prevVenues) => {
                 const combined = [...prevVenues, ...fetchedVenues];
@@ -73,9 +65,6 @@ export const VenueDisplayAll: React.FC = () => {
         fetchVenues(1);
     }, []);
 
-    /**
-     * Handles loading the next page of venues.
-     */
     const handleShowMore = () => {
         const nextPage = currentPage + 1;
         setCurrentPage(nextPage);
@@ -85,7 +74,7 @@ export const VenueDisplayAll: React.FC = () => {
     return (
         <div className="venue-display">
             <h2 className="venue-display-title">Available Venues</h2>
-            {isLoading && currentPage === 1 && <LoadingComponent />}
+            {isLoading && currentPage === 1 && <p>Loading...</p>}
             {error && <p className="error-message">{error}</p>}
             <div className="venue-list">
                 {venues.map((venue) => (
@@ -97,25 +86,21 @@ export const VenueDisplayAll: React.FC = () => {
                     Show More
                 </button>
             )}
-            {isLoading && currentPage > 1 && <LoadingComponent />}
+            {isLoading && currentPage > 1 && <p>Loading...</p>}
             {isLastPage && <p className="no-more-venues">No more venues available.</p>}
         </div>
     );
 }
 
-/**
- * Props for the VenueSearchDisplay component.
- */
 interface VenueSearchDisplayProps {
     searchParams: Record<string, any>;
 }
 
 /**
- * Displays search results for venues based on the provided search parameters.
- * Fetches filtered venues from the API and shows how many were found.
+ * VenueSearchDisplay
  *
- * @param {VenueSearchDisplayProps} props - The search parameters to use in the query.
- * @returns {JSX.Element} The component showing filtered venue results.
+ * Displays venues based on search parameters provided via props.
+ * Renders loading state, error state, and result count.
  */
 export const VenueSearchDisplay: React.FC<VenueSearchDisplayProps> = ({ searchParams }) => {
     const [venues, setVenues] = useState<Venue[]>([]);
@@ -141,7 +126,7 @@ export const VenueSearchDisplay: React.FC<VenueSearchDisplayProps> = ({ searchPa
     return (
         <div className="venue-display">
             <h1 className="venue-display-title">Search Results</h1>
-            {isLoading && <LoadingComponent />}
+            {isLoading && <p>Loading...</p>}
             {error && <p className="error-message">{error}</p>}
             {!isLoading && !error && (
                 <p className="result-message">

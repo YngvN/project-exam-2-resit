@@ -3,6 +3,7 @@
 @import "./animation/animations.scss";
 @import "./forms.scss";
 @import "./buttons.scss";
+@import "./text.scss";
 
 body {
     background-color: map-get($colors-light, background);

@@ -2,6 +2,15 @@ import React, { useEffect } from "react";
 import XIcon from "../icons/xIcon/xIcon";
 import "./modalComponent.scss";
 
+/**
+ * ModalComponent
+ *
+ * A generic modal that renders children content in a centered overlay.
+ * - Can be closed by clicking outside or pressing Escape
+ * - Includes an XIcon close button
+ * - Uses isOpen prop to control visibility
+ */
+
 function ModalComponent({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children: React.ReactNode }) {
     useEffect(() => {
         if (!isOpen) return;

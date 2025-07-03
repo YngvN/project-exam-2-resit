@@ -1,9 +1,9 @@
 $primary-color: #28587B;
 $secondary-color: #226F54;
 
-$white: #D7D0C8;
-$black: #000000;
-$grey: #808080;
+$white: #bbb;
+$black: #222;
+$grey: #eee8;
 
 $lighten: 5;
 $darken: 25;
@@ -17,7 +17,7 @@ $colors-light: (
         darken: darken($secondary-color, $darken)),
     color-1: #e1e1e1,
     color-2: #f2f2f2,
-    background: $white,
+    background: #f2f4ed,
     contrast: $black,
     shadow: #8585857c,
     font: white

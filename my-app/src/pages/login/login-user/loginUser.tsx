@@ -3,8 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../../utility/api/url";
 import { storeUserData } from "../../../utility/api/user";
 import FormContainer from "../../../components/containers/form/form";
-import { PrimaryButton, SecondaryButton } from "../../../components/buttons/buttons";
 
+/**
+ * LoginUser component
+ *
+ * A login form for authenticating users using email and password.
+ * - Sends credentials to API
+ * - Stores user and auth data in storage
+ * - Optionally remembers user across sessions
+ * - Redirects to /home on success and reloads the app
+ */
 function LoginUser() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -84,8 +92,8 @@ function LoginUser() {
                     </label>
                 </div>
                 <div className="button-container">
-                    <PrimaryButton type="submit" label="Log in" className="login-button" />
-                    <SecondaryButton label="Skip Login" />
+                    <button type="submit" className="btn btn-primary login-button">Log in</button>
+                    <button className="btn btn-danger">Skip login</button>
                 </div>
             </form>
         </FormContainer>

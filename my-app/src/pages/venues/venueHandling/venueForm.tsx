@@ -37,6 +37,16 @@ interface VenueFormProps {
     submitText?: string;
 }
 
+/**
+ * Renders a form to create or update a venue, including support for images, amenities, and optional location.
+ *
+ * @param {VenueFormProps} props - Props for the VenueForm component.
+ * @param {VenueFormData} [props.initialData] - Optional initial data for pre-filling the form fields.
+ * @param {(data: VenueFormData) => Promise<void>} props.onSubmit - Callback to handle form submission.
+ * @param {"create" | "update"} [props.mode] - Optional mode to indicate if the form is for creating or updating.
+ * @param {string} [props.submitText] - Optional custom text for the submit button.
+ * @returns {JSX.Element} The rendered venue form component.
+ */
 const VenueForm: React.FC<VenueFormProps> = ({ initialData, onSubmit, submitText }) => {
     const [formData, setFormData] = useState<VenueFormData>(
         initialData || {

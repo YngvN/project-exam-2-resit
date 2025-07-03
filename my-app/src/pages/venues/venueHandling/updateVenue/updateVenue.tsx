@@ -8,6 +8,14 @@ interface UpdateVenueProps {
     onSuccess: () => void;
 }
 
+/**
+ * UpdateVenue
+ *
+ * Wrapper component around `VenueForm` for updating an existing venue.
+ * Accepts `initialData` to prefill the form and `venueId` to identify the venue.
+ * Transforms form data to a format accepted by the Holidaze API.
+ * Calls `onSuccess` callback after successful update.
+ */
 const UpdateVenue: React.FC<UpdateVenueProps> = ({ initialData, venueId, onSuccess }) => {
     const handleSubmit = async (formData: VenueFormData) => {
         const payload: any = {

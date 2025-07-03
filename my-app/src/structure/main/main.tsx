@@ -7,6 +7,15 @@ import MessageModalComponent from '../../components/modal/messageModal/messageMo
 import './FadeTransitionWrapper.scss';
 import './main.scss';
 
+/**
+ * Main layout wrapper for the Holidaze application.
+ *
+ * Features:
+ * - Applies a fade transition between route changes using `react-transition-group`.
+ * - Wraps routed content with <Outlet />.
+ * - Includes global modals: a standard `ModalComponent` and a `MessageModalComponent`.
+ * 
+ */
 const Main: React.FC = () => {
     const location = useLocation();
 
@@ -14,9 +23,7 @@ const Main: React.FC = () => {
     const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
     const [messages] = useState<string[]>([
-        "Welcome back!",
-        "You have 2 new notifications.",
-        "Your profile was updated successfully."
+        ""
     ]);
 
     return (
@@ -34,25 +41,12 @@ const Main: React.FC = () => {
                 </CSSTransition>
             </SwitchTransition>
 
-            {/* Test buttons */}
-            <button className="test-modal-button" onClick={() => setIsModalOpen(true)}>
-                Open Content Modal
-            </button>
-
-            <button className="test-modal-button" onClick={() => setIsMessageModalOpen(true)}>
-                Open Message Modal
-            </button>
-
-            {/* Content Modal */}
             <ModalComponent isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <h2>Welcome to the Modal!</h2>
-                <p>This is where you can add content or forms.</p>
                 <button onClick={() => setIsModalOpen(false)} className="close-modal-button">
                     Close Modal
                 </button>
             </ModalComponent>
 
-            {/* Message Modal */}
             <MessageModalComponent
                 isOpen={isMessageModalOpen}
                 onClose={() => setIsMessageModalOpen(false)}

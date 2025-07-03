@@ -4,11 +4,37 @@ import { isUserLoggedIn, getUserData, deleteUserData } from '../../../utility/ap
 
 import './nav.scss';
 
+/**
+ * Navigation bar component for the Holidaze application.
+ *
+ * Features:
+ * - Responsive hamburger menu for mobile devices.
+ * - Dynamic display of links based on user login state.
+ * - Dropdown menu for logged-in users with access to profile and logout.
+ * - Automatically updates when localStorage/sessionStorage changes.
+ *
+ */
+const HamburgerIcon: React.FC<{ isOpen: boolean; toggleMenu: () => void }> = ({ isOpen, toggleMenu }) => (
+    <div
+        className={`hamburger ${isOpen ? 'open' : ''}`}
+        onClick={toggleMenu}
+        role="button"
+        tabIndex={0}
+        aria-label="Toggle menu"
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleMenu(); }}
+    >
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+    </div>
+);
+
 const Nav: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
     const [isManager, setIsManager] = useState(false);
     const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     const updateUserInfo = () => {
@@ -45,20 +71,27 @@ const Nav: React.FC = () => {
         setDropdownVisible((prev) => !prev);
     };
 
+    const toggleMenu = () => {
+        setMenuOpen((prev) => !prev);
+    };
+
+    const closeMenu = () => setMenuOpen(false);
+
     return (
-        <nav>
-            <ul>
+        <nav className='header-nav'>
+            <HamburgerIcon isOpen={menuOpen} toggleMenu={toggleMenu} />
+            <ul className={menuOpen ? "open" : ""}>
                 <li>
-                    <Link to="/home">Home</Link>
+                    <Link to="/home" onClick={closeMenu}>Home</Link>
                 </li>
                 {isLoggedIn && (
                     <li>
-                        <Link to="/bookings">Bookings</Link>
+                        <Link to="/bookings" onClick={closeMenu}>Bookings</Link>
                     </li>
                 )}
                 {isLoggedIn && isManager && (
                     <li>
-                        <Link to="/venues">Venues</Link>
+                        <Link to="/venues" onClick={closeMenu}>Venues</Link>
                     </li>
                 )}
                 <li>
@@ -69,12 +102,15 @@ const Nav: React.FC = () => {
                             </span>
                             {dropdownVisible && (
                                 <div className="user-dropdown">
-                                    <Link to="/profile" className="dropdown-item">
+                                    <Link to="/profile" className="dropdown-item" onClick={closeMenu}>
                                         My Profile
                                     </Link>
                                     <button
                                         className="dropdown-item logout-button"
-                                        onClick={handleLogout}
+                                        onClick={() => {
+                                            handleLogout();
+                                            closeMenu();
+                                        }}
                                     >
                                         Log Out
                                     </button>
@@ -82,7 +118,7 @@ const Nav: React.FC = () => {
                             )}
                         </div>
                     ) : (
-                        <Link to="/">Log In</Link>
+                        <Link to="/" onClick={closeMenu}>Log In</Link>
                     )}
                 </li>
             </ul>

@@ -41,6 +41,7 @@ header {
         border-radius: 0;
         cursor: pointer;
         transition: background-color 0.3s ease, color 0.3s ease;
+        width: 100%;
 
         &:hover {
           background-color: #e9ecef95;
@@ -89,6 +90,11 @@ header {
         @media screen and (min-width: 768px) {
           .user-dropdown {
             left: -1.7em;
+            top: 2.5em;
+          }
+
+          .logout-button {
+            margin: 0;
           }
       }
     }
@@ -102,14 +108,17 @@ header {
       display: none;
       flex-direction: column;
       position: absolute;
+      margin: 0;
+      padding: .5em 0 .5em 0;
       top: 100%;
       left: 0;
       right: 0;
-      padding: 0.5rem 0;
+      width: 200px;
       border-radius: 0 0 8px 8px;
       background-color: map-get(map-get($colors-light, primary), base);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
       z-index: 20;
+      gap: 1em;
 
       &.open {
         display: flex;
@@ -117,12 +126,18 @@ header {
 
       li {
         width: 100%;
+        margin: 0;
 
         a,
-        .dropdown-item {
-          display: block;
+        .dropdown-item,
+        .nav-username,
+        .logout-button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
           width: 100%;
-          padding: 0.75rem 1.5rem;
+          margin: 0;
+          padding: .5em 0 .5em 0;
         }
 
         .user-dropdown {
@@ -132,11 +147,28 @@ header {
           width: 100%;
           box-shadow: none;
           border-radius: 0;
+          margin: 0;
+          padding: 0;
+          
+          a,
+          .dropdown-item,
+          .nav-username,
+          .logout-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+          }
+
+          .dropdown-item {
+            margin: .5em 0 .5em 0;
+            padding: .5em 0 .5em 0;
+          }
         }
 
-        .logout-button {
-          margin: 0;
-        }
+
       }
     }
   }

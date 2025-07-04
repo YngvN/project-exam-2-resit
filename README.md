@@ -22,6 +22,7 @@ My delivery for PE2 using Noroff API to make a Airbnb type site.
 
 ## Getting Started
 
+
 ### Installing
 
 
@@ -41,9 +42,11 @@ npm install
 ### Running
 
 
-To run the app, run the following commands:
+To run the app, run the following commands inside /my-app:
 
 ```bash
+npm run build
+
 npm start
 ```
 
